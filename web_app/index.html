@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time Traffic Monitoring</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Real-Time Traffic Monitoring</h1>
+    <canvas id="trafficChart" width="400" height="200"></canvas>
+    <script>
+        var ctx = document.getElementById('trafficChart').getContext('2d');
+        var trafficChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Time data
+                datasets: [{
+                    label: 'Number of Vehicles',
+                    data: [], // Vehicle count data
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'minute'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function updateChart() {
+            fetch('/api/traffic_data')
+                .then(response => response.json())
+                .then(data => {
+                    trafficChart.data.labels.push(data.time);
+                    trafficChart.data.datasets[0].data.push(data.vehicle_count);
+                    trafficChart.update();
+                });
+        }
+
+        setInterval(updateChart, 60000); // Update every minute
+    </script>
+</body>
+</html>
