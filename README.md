@@ -6,6 +6,9 @@ System Architecture
 Components:
 
 Cameras: Capture real-time traffic footage.
+
 Edge Device: Raspberry Pi or Nvidia Jetson Nano for initial processing.
+
 Server: A cloud-based server (AWS, Azure, or GCP) for further processing and storage.
+
 Web Application: Frontend for displaying real-time analytics and visualizations.
